@@ -1,0 +1,29 @@
+# ansible-playbook -i 172.1.0.254, -u admin -k -e ansible_network_os=ios test.yml
+---
+- name: Network Getting Started First Playbook Extended
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+
+  tasks:
+    - name: add vlan
+      ios_config:
+        lines:
+          - vlan 10
+          - name IT
+          - vlan 20
+          - name Yussuk 
+          - vlan 31
+          - name enes 
+          - vlan 53
+          - name Rize 
+
+    - name: get changed config from IOS device
+      ios_command:
+        commands: show vlan brief
+      register: result # variable named 'result'
+
+    - name: print result
+      debug:
+        msg: "{{ result.stdout_lines }}"
+

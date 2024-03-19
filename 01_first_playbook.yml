@@ -1,0 +1,15 @@
+# ansible-playbook -i 172.1.0.254, -u admin -k -e ansible_network_os=ios 01_first_playbook.yml
+# ansible-playbook 01_first_playbook.yml
+---
+- name: retrive router info
+  connection: network_cli
+  hosts: all
+
+  tasks:
+    - name: retrive hostname and ios version
+      ios_facts: 
+        gather_subset: all
+
+    - name: print info
+      debug:
+        msg: "the hostname is {{ ansible_net_hostname}} and ios version {{ansible_net_version}}"

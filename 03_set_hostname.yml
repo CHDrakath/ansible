@@ -1,0 +1,17 @@
+# ansible-playbook -i 172.1.0.254, -u admin -k -e ansible_network_os=ios 03_set_hostname.yml
+
+---
+- name: set router info
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+
+  tasks:
+    - name: set the hostname
+      ios_config:
+        lines:
+          - hostname bencede
+
+    - name: backup all config
+      ios_config:
+        backup: yes

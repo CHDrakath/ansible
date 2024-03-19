@@ -1,0 +1,19 @@
+# ansible-playbook -i 172.12.0.254, -u admin -k -e ansible_network_os=ios 02_sh_run.yml
+
+
+---
+- name: fact config
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+
+  tasks:
+    - name: retrive running-conf
+      ios_command:
+        commands:
+          - show run
+      register: result
+
+    - name: display running-conf
+      debug:
+        var: result.stdout_lines

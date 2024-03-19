@@ -1,0 +1,25 @@
+# ansible-playbook -i 172.123.0.1, -u admin -k -e ansible_network_os=ios 05_add_username.yml
+# ansible-playbook -i 172.1.0.254, -u admin -k -e ansible_network_os=ios 05_add_username.yml
+
+---
+- name: Network Getting Started First Playbook Extended
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+
+  tasks:
+    - name: add username
+      ios_config:
+        lines:
+          - username cisco priv 15 secret class
+
+    - name: get changed config from IOS device
+      ios_command:
+        commands: show run | i username
+      register: result # variable named 'result'
+
+    - name: print result
+      debug:
+        msg: "{{ result.stdout_lines }}"
+    
+
